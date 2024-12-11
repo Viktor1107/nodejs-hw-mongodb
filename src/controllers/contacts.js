@@ -53,7 +53,7 @@ export const createContactsController = async (req, res) => {
 
 	if(!result) {
 		throw createHttpError(404, 'Contact not found');
-		return
+
 	}
 
 	res.json({
