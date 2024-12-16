@@ -8,7 +8,6 @@ import {notFoundHandler} from './middlewares/notFoundHandler.js'
 import { errorHandler } from './middlewares/errorHandler.js';
 
 
-
 const PORT = Number(getEnvVar('PORT', '3000'));
 
 export function setupServer(){
