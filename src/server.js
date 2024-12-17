@@ -1,9 +1,8 @@
 import express from 'express';
 import pino from 'pino-http';
-import mongoose from 'mongoose';
 import cors from 'cors';
 import { getEnvVar } from './utils/getEnvVar.js';
-import contactsRouter from './routers/contacts.js'
+import router from './routers/index.js';
 import {notFoundHandler} from './middlewares/notFoundHandler.js'
 import { errorHandler } from './middlewares/errorHandler.js';
 
@@ -23,7 +22,7 @@ app.use(
 	}),
   );
 
-app.use(contactsRouter);
+app.use(router);
 
 app.use('*', notFoundHandler);
 
