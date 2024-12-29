@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import { randomBytes } from 'crypto';
 import { SessionsCollection } from "../db/models/session.js";
 import { FIFTEEN_MINUTES, THIRTY_DAYS } from "../constants/index.js";
+import { ContactsCollection } from "../db/models/contacts.js";
 
 
 
@@ -88,3 +89,10 @@ export const refreshUsersSession = async({ sessionId, refreshToken }) => {
 export const logoutUser = async(sessionId) => {
 	await SessionsCollection.deleteOne({ _id: sessionId })
 };
+
+export const requestResetToken = async(email) => {
+	const user = await ContactsCollection.findOne({email})
+	if(!user) {
+		throw createHttpError(404, 'User not found')
+	}
+}
