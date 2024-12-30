@@ -12,7 +12,7 @@ import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const getContactsController = async (req, res, next) => {
-  const { _id: userId } = req.user;
+  const userId = req.user._id;
 
   const { page, perPage } = parsePaginationParams(req.query);
 
@@ -46,6 +46,10 @@ export const getContactByIdController = async (req, res, next) => {
 
   const contact = await getContactById(contactId, userId);
 
+  if (contact.userId.toString() !== req.user.id) {
+    throw createHttpError(403, 'Access to the contact is denied');
+  }
+
   if (!contact) {
     return next(createHttpError(404, 'Contact not found'));
   }
@@ -57,7 +61,7 @@ export const getContactByIdController = async (req, res, next) => {
 };
 
 export const createContactsController = async (req, res) => {
-  const { _id: userId } = req.user;
+  const userId = req.user._id;
   const contact = await createContact(req.body, userId);
 
   res.status(201).json({
@@ -68,13 +72,17 @@ export const createContactsController = async (req, res) => {
 };
 
 export const patchContactController = async (req, res, next) => {
-  const { _id: userId } = req.user;
+  const userId = req.user._id;
   const { contactId } = await req.params;
   const result = await updateContact(contactId, req.body, userId);
 
   if (!result) {
     next(createHttpError(404, 'Contact not found'));
     return;
+  }
+
+  if (contact.userId.toString() !== req.user.id) {
+    throw createHttpError(403, 'Access to the contact is denied');
   }
 
   res.json({
@@ -85,13 +93,17 @@ export const patchContactController = async (req, res, next) => {
 };
 
 export const deleteContactsController = async (req, res, next) => {
-  const { _id: userId } = req.user;
+  const userId = req.user._id;
   const { contactId } = req.params;
 
   const contact = await deleteContact(contactId, userId);
 
   if (!contact) {
     next(createHttpError(404, 'Contact not found'));
+  }
+
+  if (contact.userId.toString() !== req.user.id) {
+    throw createHttpError(403, 'Access to the contact is denied');
   }
 
   res.status(204).send();
