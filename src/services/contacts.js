@@ -3,6 +3,7 @@ import { ContactsCollection } from '../db/models/contacts.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
 export const getAllContacts = async ({
+  userId,
   page = 1,
   perPage = 10,
   sortOrder = SORT_ORDER.ASC,
@@ -12,7 +13,7 @@ export const getAllContacts = async ({
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  const contactsQuery = ContactsCollection.find(filter);
+  const contactsQuery = ContactsCollection.find({ userId });
 
   if (filter.type) {
     contactsQuery.where('contactType').equals(filter.type);
@@ -68,9 +69,35 @@ export const updateContact = async (
   if (!rawResult || !rawResult.value) return null;
 
   return {
-    contact: rawResult.value,
-    isNew: Boolean(rawResult?.lastErrorObject?.upserted),
+    data: contacts,
+    ...paginationData,
   };
+};
+
+export const getContactById = async (contactId, userId) => {
+  // console.log('Fetching contact with ID:', contactId);
+  const contact = await ContactsCollection.findById({ _id: contactId, userId });
+  return contact;
+};
+
+export const createContact = async (payload, userId) => {
+  payload.userId = userId;
+  const contact = await ContactsCollection.create(payload);
+  return contact;
+};
+
+export const updateContact = async (
+  contactId,
+  payload,
+  userId,
+  options = {},
+) => {
+  const updatedContact = await ContactsCollection.findOneAndUpdate(
+    { _id: contactId, userId },
+    payload,
+    { new: true, upsert: options.upsert || false },
+  );
+  return updatedContact;
 };
 
 export const deleteContact = async (contactId, userId) => {

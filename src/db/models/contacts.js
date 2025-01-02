@@ -17,15 +17,15 @@ const contactsSchema = new Schema(
       type: Boolean,
       default: false,
     },
-	contactType: {
-		type: String,
-		enum: ['work', 'home', 'personal'],
-		required: true,
-		default: 'personal',
-	  },
+    contactType: {
+      type: String,
+      enum: ['work', 'home', 'personal'],
+      required: true,
+      default: 'personal',
+    },
     userId: {
       type: Schema.Types.ObjectId,
-      ref: 'users',
+      ref: 'User',
       required: true,
     },
   },
