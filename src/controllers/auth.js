@@ -5,6 +5,7 @@ import {
   refreshUsersSession,
   registerUser,
   requestResetToken,
+  resetPassword,
 } from '../services/auth.js';
 
 export const registerUserController = async (req, res) => {
@@ -78,8 +79,26 @@ export const logoutUserController = async (req, res) => {
 
 export const requestResetEmailController = async (req, res) => {
   await requestResetToken(req.body.email);
+  // if (!email) {
+  //   return res.status(400).json({ message: 'Email is required' });
+  // }
+
+  // const user = await UserCollection.findOne({ email });
+  // if (!user) {
+  //   return res.status(404).json({ message: 'User not found' });
+  // }
+
   res.json({
     message: 'Reset password email was successfully sent!',
+    status: 200,
+    data: {},
+  });
+};
+
+export const resetPasswordController = async (req, res) => {
+  await resetPassword(req.body);
+  res.json({
+    message: 'Password was successfully reset!',
     status: 200,
     data: {},
   });
