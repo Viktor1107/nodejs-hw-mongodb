@@ -79,14 +79,7 @@ export const logoutUserController = async (req, res) => {
 
 export const requestResetEmailController = async (req, res) => {
   await requestResetToken(req.body.email);
-  // if (!email) {
-  //   return res.status(400).json({ message: 'Email is required' });
-  // }
 
-  // const user = await UserCollection.findOne({ email });
-  // if (!user) {
-  //   return res.status(404).json({ message: 'User not found' });
-  // }
 
   res.json({
     message: 'Reset password email was successfully sent!',

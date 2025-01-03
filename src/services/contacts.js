@@ -24,7 +24,7 @@ export const getAllContacts = async ({
   }
 
   const [contactsCount, contacts] = await Promise.all([
-    ContactsCollection.find(filter).countDocuments(),
+    ContactsCollection.find({ userId }).countDocuments(),
     contactsQuery
       .skip(skip)
       .limit(limit)
@@ -41,62 +41,26 @@ export const getAllContacts = async ({
 };
 
 export const getContactById = async (contactId, userId) => {
-  console.log('Fetching contact with ID:', contactId);
-  const contact = await ContactsCollection.findById({ _id: contactId, userId });
+  // const contact = await ContactsCollection.findById({ _id: contactId, userId });
+  const contact = await ContactsCollection.findOne({ _id: contactId, userId });
   return contact;
 };
 
-export const createContact = async (payload, userId) => {
-  const contact = await ContactsCollection.create(payload, userId);
-  return contact;
+export const createContact = async (userId, newContactData) => {
+  const newContact = await ContactsCollection.create({
+    ...newContactData,
+    userId,
+  });
+  return newContact;
 };
 
-export const updateContact = async (
-  contactId,
-  payload,
-  userId,
-  options = {},
-) => {
-  const rawResult = await ContactsCollection.findOneAndUpdate(
-    { _id: contactId, userId },
-    payload,
-    {
-      new: true,
-      includeResultMetadata: true,
-      ...options,
-    },
-  );
-  if (!rawResult || !rawResult.value) return null;
-
-  return {
-    data: contacts,
-    ...paginationData,
-  };
-};
-
-export const getContactById = async (contactId, userId) => {
-  // console.log('Fetching contact with ID:', contactId);
-  const contact = await ContactsCollection.findById({ _id: contactId, userId });
-  return contact;
-};
-
-export const createContact = async (payload, userId) => {
-  payload.userId = userId;
-  const contact = await ContactsCollection.create(payload);
-  return contact;
-};
-
-export const updateContact = async (
-  contactId,
-  payload,
-  userId,
-  options = {},
-) => {
+export const updateContact = async (contactId, userId, contactData) => {
   const updatedContact = await ContactsCollection.findOneAndUpdate(
     { _id: contactId, userId },
-    payload,
-    { new: true, upsert: options.upsert || false },
+    contactData,
+    { new: true },
   );
+
   return updatedContact;
 };
 

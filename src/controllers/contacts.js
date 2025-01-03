@@ -10,6 +10,9 @@ import createHttpError from 'http-errors';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { getEnvVar as env } from '../utils/getEnvVar.js';
 
 export const getContactsController = async (req, res, next) => {
   const userId = req.user._id;
@@ -38,7 +41,7 @@ export const getContactsController = async (req, res, next) => {
 
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
-  const { _id: userId } = req.user;
+  const userId = req.user._id;
 
   if (!mongoose.Types.ObjectId.isValid(contactId)) {
     throw createHttpError(400, 'Invalid contact ID format');
@@ -46,7 +49,7 @@ export const getContactByIdController = async (req, res, next) => {
 
   const contact = await getContactById(contactId, userId);
 
-  if (contact.userId.toString() !== req.user.id) {
+  if (contact.userId.toString() !== userId.toString()) {
     throw createHttpError(403, 'Access to the contact is denied');
   }
 
@@ -62,7 +65,22 @@ export const getContactByIdController = async (req, res, next) => {
 
 export const createContactsController = async (req, res) => {
   const userId = req.user._id;
-  const contact = await createContact(req.body, userId);
+  const photo = req.file;
+
+  let photoUrl;
+
+  if (photo) {
+    if (env('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
+  }
+
+  const contact = await createContact(userId, {
+    ...req.body,
+    photo: photoUrl,
+  });
 
   res.status(201).json({
     status: 201,
@@ -72,23 +90,39 @@ export const createContactsController = async (req, res) => {
 };
 
 export const patchContactController = async (req, res, next) => {
+  const { contactId } = req.params;
   const userId = req.user._id;
-  const { contactId } = await req.params;
-  const result = await updateContact(contactId, req.body, userId);
+  const photo = req.file;
 
-  if (!result) {
-    next(createHttpError(404, 'Contact not found'));
-    return;
+  let photoUrl;
+
+  if (photo) {
+    if (env('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
   }
 
-  if (contact.userId.toString() !== req.user.id) {
-    throw createHttpError(403, 'Access to the contact is denied');
+  const updatedContact = await updateContact(contactId, userId, {
+    ...req.body,
+    photo: photoUrl,
+  });
+
+  if (!updatedContact) {
+    return next(createHttpError(404, 'Contact not found'));
   }
+
+  if (updatedContact.userId.toString() !== userId.toString()) {
+    return next(createHttpError(403, 'Access to the contact is denied'));
+  }
+
+  console.log('Successfully updated contact:', updatedContact);
 
   res.json({
     status: 200,
     message: 'Successfully patched a contact!',
-    data: result.contact,
+    data: updatedContact,
   });
 };
 
@@ -102,7 +136,7 @@ export const deleteContactsController = async (req, res, next) => {
     next(createHttpError(404, 'Contact not found'));
   }
 
-  if (contact.userId.toString() !== req.user.id) {
+  if (contact.userId.toString() !== req.user._id.toString()) {
     throw createHttpError(403, 'Access to the contact is denied');
   }
 
