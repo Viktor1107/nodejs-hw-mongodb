@@ -72,23 +72,26 @@ export const createContactsController = async (req, res) => {
 };
 
 export const patchContactController = async (req, res, next) => {
+  const { contactId } = req.params;
   const userId = req.user._id;
-  const { contactId } = await req.params;
-  const result = await updateContact(contactId, req.body, userId);
+
+  const result = await updateContact(contactId, userId, {
+    ...req.body,
+  });
 
   if (!result) {
     next(createHttpError(404, 'Contact not found'));
     return;
   }
 
-  if (contact.userId.toString() !== req.user.id) {
+  if (result.userId.toString() !== userId.toString()) {
     throw createHttpError(403, 'Access to the contact is denied');
   }
 
   res.json({
     status: 200,
     message: 'Successfully patched a contact!',
-    data: result.contact,
+    data: result,
   });
 };
 
