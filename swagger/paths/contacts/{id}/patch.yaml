@@ -1,0 +1,61 @@
+tags:
+  - Contacts
+summary: Patch contact
+operationId: updateContact
+description: "Update contact"
+security:
+  - bearerAuth: []
+parameters:
+  - name: contacts
+    in: path
+    required: true
+    description: "Update contact"
+    schema:
+      type: string
+      example: "67698dcab119f87bc7fdv555"
+  - name: name
+    in: query
+    description: "Contact name"
+    schema:
+      type: string
+      example: "John Doe"
+  - name: phoneNumber
+    in: query
+    description: "Phone number"
+    schema:
+      type: string
+      example: "+38093588778"
+  - name: contactType
+    in: query
+    description: "Contact type"
+    schema:
+      type: string
+      enum: ["home", "work", "personal"]
+  - name: photo
+    in: query
+    description: "Contact photo"
+    schema:
+      type: string
+      format: binary
+responses:
+  "200":
+    description: "Successfully updated a contact!"
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: "Successfully patched a contact!"
+            data:
+              type: object
+  "404":
+    $ref: "../../../components/responses/404.yaml"
