@@ -6,11 +6,12 @@ description: Get contact by ID.
 security:
   - bearerAuth: []
 parameters:
-  - in: query
-    name: page
-    description: Page number for pagination.
+  - name: id
+    in: path
+    required: true
+    description: "Contact ID"
     schema:
-      type: integer
+      type: string
       example: 1
       default: 1
   - in: query

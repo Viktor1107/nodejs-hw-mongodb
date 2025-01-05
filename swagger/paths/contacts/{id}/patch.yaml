@@ -6,10 +6,10 @@ description: "Update contact"
 security:
   - bearerAuth: []
 parameters:
-  - name: contacts
+  - name: id
     in: path
     required: true
-    description: "Update contact"
+    description: "Contact ID"
     schema:
       type: string
       example: "67698dcab119f87bc7fdv555"

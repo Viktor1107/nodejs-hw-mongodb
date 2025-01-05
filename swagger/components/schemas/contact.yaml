@@ -22,7 +22,8 @@ properties:
   email:
     description: "Contact email"
     type: string
-    enum: "qwant@ukr.net"
+    enum: 
+      - "qwant@ukr.net"
   contactType:
     description: "contactType"
     type: boolean
