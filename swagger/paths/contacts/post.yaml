@@ -14,6 +14,7 @@ requestBody:
           - name
           - phoneNumber
           - contactType
+          - isFavourite
         properties:
           name:
             description: "Contact name"
@@ -27,14 +28,14 @@ requestBody:
             description: "Contact type"
             type: string
             enum: ["home", "work", "personal"]
-          userId:
-            description: "User ID"
-            type: string
-            example: "65e4decdd286b30065d54af9"
           photo:
             description: "Contact photo"
             type: string
             format: binary
+          isFavourite:
+            description: "Whether the contact is a favourite"
+            type: boolean
+            example: true
 responses:
   "201":
     description: "Successfully created contact"

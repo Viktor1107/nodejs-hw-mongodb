@@ -10,7 +10,7 @@ properties:
   _id:
     description: "Contact id"
     type: string
-    example: 65e4decdd286b30065d54af9
+    example: "65e4decdd286b30065d54af9"
   name:
     description: "Contact name"
     type: string
@@ -22,21 +22,21 @@ properties:
   email:
     description: "Contact email"
     type: string
-    enum: 
-      - "qwant@ukr.net"
+    example: "qwant@ukr.net"
   contactType:
-    description: "contactType"
-    type: boolean
-    example: false
+    description: "Type of contact (work, home, personal)"
+    type: string
+    enum: ["work", "home", "personal"]
+    example: "work"
   isFavourite:
-    description: "Contact isFavourite"
-    type: string
-    example: ["work", "home", "personal"]
+    description: "Whether the contact is a favourite"
+    type: boolean
+    example: true
   userId:
-    description: "Contact userId"
+    description: "ID of the user who owns the contact"
     type: string
-    example: 65e4decdd286b30065d54af9
+    example: "65e4decdd286b30065d54af9"
   photo:
-    description: "Link to student's photo"
+    description: "Link to contact's photo"
     type: string
-    example: https://res.cloudinary.com/uqwgdu/image/upload/image.png
+    example: "https://res.cloudinary.com/uqwgdu/image/upload/image.png"

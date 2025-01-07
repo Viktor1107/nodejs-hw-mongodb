@@ -13,30 +13,28 @@ parameters:
     schema:
       type: string
       example: "67698dcab119f87bc7fdv555"
-  - name: name
-    in: query
-    description: "Contact name"
-    schema:
-      type: string
-      example: "John Doe"
-  - name: phoneNumber
-    in: query
-    description: "Phone number"
-    schema:
-      type: string
-      example: "+38093588778"
-  - name: contactType
-    in: query
-    description: "Contact type"
-    schema:
-      type: string
-      enum: ["home", "work", "personal"]
-  - name: photo
-    in: query
-    description: "Contact photo"
-    schema:
-      type: string
-      format: binary
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          name:
+            description: "Contact name"
+            type: string
+            example: "John Doe"
+          phoneNumber:
+            description: "Phone number"
+            type: string
+            example: "+38093588778"
+          contactType:
+            description: "Contact type"
+            type: string
+            enum: ["home", "work", "personal"]
+          photo:
+            description: "Contact photo"
+            type: string
+            format: binary
 responses:
   "200":
     description: "Successfully updated a contact!"
