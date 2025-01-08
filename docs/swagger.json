@@ -10,7 +10,7 @@
       "url": "http://localhost:3000"
     },
     {
-      "url": "https://nodejs-hw-mongodb-crud-9tqb.onrender.com"
+      "url": "https://nodejs-hw-mongodb-4-g86y.onrender.com"
     }
   ],
   "components": {
@@ -72,7 +72,7 @@
     },
     "responses": {
       "404": {
-        "$ref": "../swagger/components/responses/404.yaml",
+        "$ref": "#/components/responses/404.yaml",
         "description": "Not Found"
       }
     }
@@ -210,8 +210,7 @@
             }
           },
           "404": {
-            "$ref": "../swagger/components/responses/404.yaml"
-          }
+            "$ref": "#/components/responses/404.yaml"
         }
       },
       "post": {
@@ -292,7 +291,7 @@
             }
           },
           "404": {
-            "$ref": "../swagger/components/responses/404.yaml"
+            "$ref": "#/components/responses/404.yaml"
           }
         }
       }
@@ -346,7 +345,7 @@
             }
           },
           "404": {
-            "$ref": "../swagger/components/responses/404.yaml"
+            "$ref": "#/components/responses/404.yaml"
           }
         }
       },
@@ -411,7 +410,7 @@
             }
           },
           "404": {
-            "$ref": "../swagger/components/responses/404.yaml"
+            "$ref": "#/components/responses/404.yaml"
           }
         }
       },
@@ -443,7 +442,7 @@
             "content": {}
           },
           "404": {
-            "$ref": "../swagger/components/responses/404.yaml"
+            "$ref": "#/components/responses/404.yaml"
           }
         }
       }
