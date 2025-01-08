@@ -130,16 +130,6 @@
           },
           {
             "in": "query",
-            "name": "contactType",
-            "schema": {
-              "type": "string",
-              "enum": ["work", "home", "personal"]
-            },
-            "example": "work",
-            "description": "The type of contact (work, home, or personal)."
-          },
-          {
-            "in": "query",
             "name": "isFavourite",
             "schema": {
               "type": "boolean"
@@ -350,6 +340,71 @@
                       "$ref": "#/components/schemas/contact"
                     }
                   }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Contacts"],
+        "summary": "Update contact by ID",
+        "operationId": "updateContact",
+        "description": "Update a contact's information by ID.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Contact ID",
+            "schema": {
+              "type": "string",
+              "example": "67698dcab119f87bc7eee931"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "contactType": {
+                    "type": "string",
+                    "enum": ["home", "work", "personal"]
+                  },
+                  "isFavorite": {
+                    "type": "boolean"
+                  },
+                  "photo": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated contact",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/contact"
                 }
               }
             }

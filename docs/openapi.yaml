@@ -12,8 +12,8 @@ tags:
   - name: Auth
     description: Auth operations.
 servers:
-  - url: http://localhost:3000  
-  - url: https://nodejs-hw-mongodb-crud-9tqb.onrender.com  
+  - url: http://localhost:3000
+  - url: https://nodejs-hw-mongodb-4-g86y.onrender.com
 paths:
   /contacts:
     get:
@@ -33,7 +33,7 @@ components:
       type: http
       scheme: bearer
   responses:
-    404: 
+    404:
       $ref: "../swagger/components/responses/404.yaml"
       description: Contact not found
       content:

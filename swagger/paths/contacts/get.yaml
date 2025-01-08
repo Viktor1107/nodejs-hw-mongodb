@@ -34,13 +34,6 @@ parameters:
     example: "asc"
     description: "The order to sort contacts. Default is ascending ('asc')."
   - in: query
-    name: contactType
-    schema:
-      type: string
-      enum: ["work", "home", "personal"]
-    example: "work"
-    description: "The type of contact (work, home, or personal)."
-  - in: query
     name: isFavourite
     schema:
       type: boolean
