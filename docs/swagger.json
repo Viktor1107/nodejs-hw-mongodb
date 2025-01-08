@@ -69,12 +69,6 @@
           }
         }
       }
-    },
-    "responses": {
-      "404": {
-        "$ref": "#/components/responses/404.yaml",
-        "description": "Not Found"
-      }
     }
   },
   "paths": {
@@ -210,7 +204,25 @@
             }
           },
           "404": {
-            "$ref": "#/components/responses/404.yaml"
+            "description": "Contacts not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       },
       "post": {
@@ -291,7 +303,24 @@
             }
           },
           "404": {
-            "$ref": "#/components/responses/404.yaml"
+            "description": "Contact not created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact not found"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -345,7 +374,24 @@
             }
           },
           "404": {
-            "$ref": "#/components/responses/404.yaml"
+            "description": "Contact id not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact not found"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -387,7 +433,7 @@
                     "type": "string",
                     "enum": ["home", "work", "personal"]
                   },
-                  "isFavorite": {
+                  "isFavourite": {
                     "type": "boolean"
                   },
                   "photo": {
@@ -410,7 +456,24 @@
             }
           },
           "404": {
-            "$ref": "#/components/responses/404.yaml"
+            "description": "Contact id not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact not found"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -442,7 +505,24 @@
             "content": {}
           },
           "404": {
-            "$ref": "#/components/responses/404.yaml"
+            "description": "Contact id not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 404
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Contact not found"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
