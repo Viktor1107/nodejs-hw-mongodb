@@ -243,6 +243,7 @@
                 "required": [
                   "name",
                   "phoneNumber",
+                  "email",
                   "contactType",
                   "isFavourite"
                 ],
@@ -256,6 +257,11 @@
                     "description": "Phone number",
                     "type": "string",
                     "example": "+38093588778"
+                  },
+                  "email": {
+                    "description": "Contact email",
+                    "type": "string",
+                    "example": "qwant@ukr.net"
                   },
                   "contactType": {
                     "description": "Contact type",
@@ -419,22 +425,34 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string"
+                    "description": "Contact name",
+                    "type": "string",
+                    "example": "John Doe"
                   },
                   "phoneNumber": {
-                    "type": "string"
+                    "description": "Contact phone number",
+                    "type": "string",
+                    "example": "+380335475117"
+                  },
+                  "email": {
+                    "description": "Contact email",
+                    "type": "string",
+                    "example": "qwant@ukr.net"
                   },
                   "contactType": {
+                    "description": "Contact type",
                     "type": "string",
                     "enum": ["home", "work", "personal"]
                   },
                   "isFavourite": {
-                    "type": "boolean"
+                    "description": "Contact is favourite ",
+                    "type": "boolean",
+                    "example": "false"
                   },
                   "photo": {
                     "type": "string"
