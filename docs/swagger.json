@@ -17,14 +17,7 @@
     "schemas": {
       "contact": {
         "type": "object",
-        "required": [
-          "_id",
-          "name",
-          "phoneNumber",
-          "email",
-          "isFavourite",
-          "contactType"
-        ],
+        "required": ["_id", "name", "phoneNumber", "contactType"],
         "properties": {
           "_id": {
             "type": "string",
@@ -65,6 +58,7 @@
           "photo": {
             "type": "string",
             "description": "Link to contact's photo",
+            "format": "binary",
             "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
           }
         }
@@ -240,13 +234,7 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "name",
-                  "phoneNumber",
-                  "email",
-                  "contactType",
-                  "isFavourite"
-                ],
+                "required": ["name", "phoneNumber", "contactType"],
                 "properties": {
                   "name": {
                     "description": "Contact name",
